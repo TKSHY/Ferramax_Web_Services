@@ -1,9 +1,9 @@
 import json
 import mercadopago
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Project, Task, Producto
+from .models import Producto
 
 
 
