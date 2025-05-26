@@ -84,63 +84,22 @@
             <div class="container-fluid">
                 <div class="row justify-content-center align-items-center text-center">
                     <div class="col-12 col-md-auto col-lg-6 bg-yellow">
-                        <h3 class="text-title">Conoce Nuestro Amplio Catálogo</h3>
+                        <h3 class="text-title"> Te recomendamos  </h3>
                     </div>
                 </div>
             </div>
 
-            <!-- Sección de Búsqueda y Filtros -->
-            <div class="container-fluid">
-                <div class="search-filter-section">
-                    <!-- Barra de búsqueda -->
-                    <div class="search-container">
-                        <input type="text" class="search-input" placeholder="Buscar herramientas, materiales, equipos..." id="searchInput">
-                        <i class="fas fa-search search-icon"></i>
-                    </div>
-
-                    <!-- Filtros por categoría -->
-                    <div class="filters-container">
-                        <span class="filter-label">Categorías:</span>
-                        <button class="filter-tag active" data-category="todos">Todos</button>
-                        <button class="filter-tag" data-category="herramientas-manuales">Herramientas Manuales</button>
-                        <button class="filter-tag" data-category="materiales-basicos">Materiales Básicos</button>
-                        <button class="filter-tag" data-category="equipos-seguridad">Equipos Seguridad</button>
-                        <button class="filter-tag" data-category="tornillos-anclajes">Tornillos - Anclajes</button>
-                        <button class="filter-tag" data-category="fijaciones">Fijaciones</button>
-                        <button class="filter-tag" data-category="equipos-medicion">Equipos Medición</button>
-                    </div>
-                </div>
-            </div>
-
-        <!-- Botones de categoria -->
-        <div class="container mt-5 mb-5">
-            <div class="row">
-                <div class="col-md-3 col-sm-6 mb-3">
-                    <a href="#" class="btn btn-dark w-100" style="font-size: 20px;">Herramientas Eléctricas</a>
-                </div>
-                <div class="col-md-3 col-sm-6 mb-3">
-                    <a href="#" class="btn btn-dark w-100" style="font-size: 20px;">Herramientas Manuales</a>
-                </div>
-                <div class="col-md-3 col-sm-6 mb-3">
-                    <a href="#" class="btn btn-dark w-100" style="font-size: 20px;">Ferretería General</a>
-                </div>
-                <div class="col-md-3 col-sm-6 mb-3"> 
-                    <a href="#" class="btn btn-dark w-100" style="font-size: 20px;">Materiales de Construcción</a>
-                </div>
-            </div>
-        </div>
-        <!-- Fin de botones --> 
 
         <!-- Grid de Ofertas -->
         <div class="products-container">
             <div class="products" id="ofertasGrid">
                 {% for producto in productos %}
-                    {% if producto.oferta %}
+                    
                         <div class="card-product" data-category="{{ producto.categoria|default:'general' }}">
                             <div class="product-badge">Oferta</div>
                             <div class="img-product">
                                 {% if producto.imagen %}
-                                    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                                    <img src="{% static 'imgs/card-products/img-product.jpg' %}" alt="{{ producto.nombre }}">
                                 {% else %}
                                     <img src="{% static 'imgs/card-products/img-product.jpg' %}" alt="{{ producto.nombre }}">
                                 {% endif %}
@@ -174,7 +133,7 @@
                                 </div>
                             </div>
                         </div>
-                    {% endif %}
+                    
                 {% empty %}
                     <div class="empty-state">
                         <i class="fas fa-tools"></i>
@@ -235,6 +194,7 @@
             </div>
         </div>
     </footer>
+    <script src="{% static 'js/script.js' %}"></script>
     <script rel="stylesheet" href="{% static 'js/script.js' %}"></script>
     <script src="{% static 'js/producto.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
