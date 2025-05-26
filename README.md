@@ -2,22 +2,22 @@
 
 Plataforma de comercio electrónico para ferretería, con integración de APIs para gestión de inventario, **pagos y conversión de divisas**.  
 
-## 🎯 Objetivo  
+## Objetivo  
 Automatizar ventas y gestionar integraciones con sistemas externos (WEBPAY, Banco Central) para mejorar la eficiencia operativa.  
 
-## 🛠 Tecnologías  
+## Tecnologías  
 - **Frontend**: HTML, CSS, JavaScript  
 - **Backend**: Python (Django)  
 - **Base de datos**: Supabase (PostgreSQL)  
 - **APIs**: Mercado Pago, Banco Central de Chile  
 - **Herramientas**: VSCode, GitHub Desktop, Navegador  
 
-## ⚡ Funcionalidades  
+## Funcionalidades  
 - API RESTful para consulta de productos  
 - Pagos con MercadoPago  
 - Conversión de divisas en tiempo real  
 
-## 🚀 Configuración paso a paso  
+## Configuración paso a paso  
 
 ### 1. Clonar repositorio  
 1.1 Usar GitHub Desktop para clonar  
