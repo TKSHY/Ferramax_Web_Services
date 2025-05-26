@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Carrito - Ferramax</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/69efc5c1d6.js" crossorigin="anonymous"></script>
+    
+    <style>
+        /* Colores del tema Ferramax */
+        .nav-color {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+        }
+        
+        .bg-yellow {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+        }
+        
+        .border-circle {
+            border-radius: 50px;
+        }
+        
+        .text-title {
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .footer-color {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+        }
+        
+        .main-cart {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f4f4f4, #e8e8e8);
+        }
+        
+        .cart-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .cart-header {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 20px;
+        }
+        
+        .cart-item {
+            border-bottom: 1px solid #ecf0f1;
+            transition: all 0.3s ease;
+        }
+        
+        .cart-item:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        
+        .product-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .quantity-btn {
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .quantity-btn:hover {
+            transform: scale(1.1);
+            text-decoration: none;
+        }
+        
+        .btn-decrease {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+        
+        .btn-increase {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+        }
+        
+        .btn-remove {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .btn-remove:hover {
+            background: linear-gradient(135deg, #c0392b, #a93226);
+            transform: translateY(-2px);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .total-section {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        
+        .payment-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .btn-transfer {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .btn-transfer:hover {
+            background: linear-gradient(135deg, #8e44ad, #7d3c98);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(142, 68, 173, 0.3);
+            color: white;
+        }
+        
+        .btn-mercadopago {
+            background: linear-gradient(135deg, #00b4d8, #0077b6);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .btn-mercadopago:hover {
+            background: linear-gradient(135deg, #0077b6, #005f87);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 119, 182, 0.3);
+            color: white;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            color: #7f8c8d;
+        }
+        
+        .empty-cart i {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            color: #bdc3c7;
+        }
+        
+        .fadeOut {
+            animation: fadeOut 0.5s ease-out forwards;
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(-100%); }
+        }
+        
+        @media (max-width: 768px) {
+            .payment-buttons {
+                flex-direction: column;
+            }
+            
+            .product-info {
+                text-align: center;
+                margin-top: 15px;
+            }
+            
+            .quantity-controls {
+                justify-content: center;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="main-cart">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg nav-color">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="https://via.placeholder.com/170x50/f39c12/ffffff?text=FERRAMAX" alt="Ferramax" width="170" height="50">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: white;" href="{% url 'lista_productos' %}">Catálogo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: white;" href="#">Contacto</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: white;" href="#">Inicio Sesión</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" style="color: white;" href="#">Registrar</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Django Cart Content -->
+        {% if productos_carrito %}
+        <!-- Contenido del Carrito -->
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <div class="cart-container">
+                        <div class="cart-header text-center">
+                            <h2 class="text-title mb-0">
+                                <i class="fas fa-shopping-cart me-3"></i>
+                                Tu Carrito de Compras
+                            </h2>
+                        </div>
+
+                        <!-- Productos en el carrito -->
+                        <div class="p-4" id="cart-items">
+                            {% for item in productos_carrito %}
+                            <div class="cart-item p-3 {% if not forloop.last %}mb-3{% endif %}">
+                                <div class="row align-items-center">
+                                    <div class="col-md-2 col-12 text-center">
+                                        {% if item.producto.imagen %}
+                                            <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class="product-img">
+                                        {% else %}
+                                            <img src="https://via.placeholder.com/80x80/3498db/ffffff?text={{ item.producto.nombre|slice:':3'|upper }}" alt="{{ item.producto.nombre }}" class="product-img">
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-4 col-12 product-info">
+                                        <h5 class="text-title mb-1">{{ item.producto.nombre }}</h5>
+                                        <p class="text-muted mb-0">Precio unitario: ${{ item.producto.precio|floatformat:0 }}</p>
+                                    </div>
+                                    <div class="col-md-3 col-12 text-center">
+                                        <div class="quantity-controls">
+                                            <a href="{% url 'reducir_cantidad' item.producto.id %}" class="quantity-btn btn-decrease">
+                                                <i class="fas fa-minus"></i>
+                                            </a>
+                                            <span class="quantity-display fw-bold">{{ item.cantidad }}</span>
+                                            <a href="{% url 'agregar_al_carrito' item.producto.id %}" class="quantity-btn btn-increase">
+                                                <i class="fas fa-plus"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-12 text-center">
+                                        <div class="fw-bold text-success">${{ item.subtotal|floatformat:0 }}</div>
+                                    </div>
+                                    <div class="col-md-1 col-12 text-center">
+                                        <a href="{% url 'eliminar_producto' item.producto.id %}" class="btn-remove" onclick="return confirm('¿Estás seguro de que quieres eliminar este producto del carrito?')">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Sección de Total y Botones de Pago -->
+                        <div class="total-section">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <h3 class="text-title mb-0">
+                                        <i class="fas fa-calculator me-2"></i>
+                                        Total del Carrito
+                                    </h3>
+                                    <div class="mt-2">
+                                        <span class="fs-4 fw-bold">${{ total|floatformat:0 }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="payment-buttons">
+                                        <button class="btn btn-transfer" onclick="payWithTransfer()">
+                                            <i class="fas fa-university me-2"></i>
+                                            Pagar con Transferencia
+                                        </button>
+                                        <button class="btn btn-mercadopago" onclick="pagarConMercadoPago()">
+                                            <i class="fas fa-credit-card me-2"></i>
+                                            Ir a Mercado Pago
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botón Volver al Catálogo -->
+                    <div class="text-center mt-4">
+                        <a href="{% url 'lista_productos' %}" class="btn btn-outline-secondary btn-lg">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Volver al Catálogo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <!-- Carrito Vacío -->
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8">
+                    <div class="cart-container">
+                        <div class="empty-cart">
+                            <i class="fas fa-shopping-cart"></i>
+                            <h3 class="text-title">Tu carrito está vacío</h3>
+                            <p>¡Agrega algunos productos increíbles de nuestro catálogo!</p>
+                            <a href="{% url 'lista_productos' %}" class="btn btn-lg" style="background: linear-gradient(135deg, #f39c12, #e67e22); color: white; border: none; padding: 15px 40px; border-radius: 25px; text-decoration: none;">
+                                <i class="fas fa-tools me-2"></i>
+                                Explorar Catálogo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-color shadow-lg">
+        <div class="container justify-content-center">
+            <div class="row text-center text-md-start">
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-5">
+                    <div>
+                        <img src="https://via.placeholder.com/170x50/f39c12/ffffff?text=FERRAMAX" alt="Ferramax" class="img-fluid" />
+                    </div>
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto" style="color: white;">
+                    <div>
+                        <h5 class="text-title mt-4">Información</h5>
+                        <hr>
+                        <ul class="list-unstyled">
+                            <li><a href="#" style="color: white;" class="text-decoration-none">Sobre Nosotros</a></li>
+                            <li><a href="#" style="color: white;" class="text-decoration-none">Contáctanos</a></li>
+                            <li><a href="#" style="color: white;" class="text-decoration-none">Política de Privacidad</a></li>
+                            <li><a href="#" style="color: white;" class="text-decoration-none">Términos y Condiciones</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto" style="color: white;">
+                    <h5 class="text-title mt-4">Medios de Pago</h5>
+                    <hr>
+                    <ul class="list-unstyled">
+                        <li><a href="#" style="color: white;" class="text-decoration-none">Visa</a></li>
+                        <li><a href="#" style="color: white;" class="text-decoration-none">Mastercard</a></li>
+                        <li><a href="#" style="color: white;" class="text-decoration-none">American Express</a></li>
+                        <li><a href="#" style="color: white;" class="text-decoration-none">PayPal</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    
+    <script>
+        function payWithTransfer() {
+            alert('Redirigiendo a la página de pago por transferencia...');
+            // Aquí puedes agregar tu lógica de pago por transferencia
+            // Por ejemplo: window.location.href = "/pago-transferencia/";
+        }
+
+        function payWithMercadoPago() {
+            alert('Redirigiendo a Mercado Pago...');
+            // Aquí puedes agregar tu lógica de MercadoPago
+            // Por ejemplo: window.location.href = "/mercado-pago/";
+        }
+
+        // Smooth transitions for cart updates
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add loading states to quantity buttons
+            const quantityButtons = document.querySelectorAll('.quantity-btn');
+            quantityButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const icon = this.querySelector('i');
+                    const originalClass = icon.className;
+                    icon.className = 'fas fa-spinner fa-spin';
+                    
+                    // Restore icon after a short delay (for visual feedback)
+                    setTimeout(() => {
+                        icon.className = originalClass;
+                    }, 500);
+                });
+            });
+        });
+
+        function pagarConMercadoPago() {
+  fetch('/api/carrito/')
+    .then(response => response.json())
+    .then(data => {
+      const productos = data.productos;
+      return fetch('/pagar/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ productos: productos }),
+      });
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.init_point) {
+        window.location.href = data.init_point; // Redirigir a Mercado Pago
+      } else {
+        alert('Error al iniciar pago');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+    </script>
+</body>
+</html>
