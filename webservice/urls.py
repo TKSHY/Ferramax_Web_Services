@@ -1,7 +1,7 @@
 from django.urls import path
 from webservice import views
+from webservice.views import show_register
 from webservice.api.register_api import register_user
-from .views import login_api
 from .views import obtener_productos_carrito_json
 
 
@@ -9,9 +9,6 @@ urlpatterns = [
     path('', views.welcome, name='welcome'),
     path('register/', views.register, name='register'),
     path("api/register/", register_user, name="register_user"),
-]
-    path('api/login/', login_api, name='login_api'),
-]
     path('mostrar-registro/', show_register, name='show_register'),
 
     # Nuevas rutas para el carrito de compras
