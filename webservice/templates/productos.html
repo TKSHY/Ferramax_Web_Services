@@ -452,6 +452,689 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" style="color: white;" href="{% url 'lista_productos' %}">Catálogo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: white;" href="#">Contacto</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" style="color: white;" href="#">Inicio Sesión</a>
+                        </li>
+                        <li>
+                            <a class="nav-link active" aria-current="page" style="color: white;" href="{% url 'register' %}">Registro</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Fin Navbar -->
+
+        <!-- Inicio de la Sección de Productos -->
+        <section class="section-space">
+            <div class="container-fluid">
+                <div class="row justify-content-center align-items-center text-center">
+                    <div class="col-12 col-md-auto col-lg-6 bg-yellow">
+                        <h3 class="text-title">Conoce Nuestro Amplio Catálogo</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Búsqueda y Filtros -->
+            <div class="container-fluid">
+                <div class="search-filter-section">
+                    <!-- Barra de búsqueda -->
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Buscar herramientas, materiales, equipos..." id="searchInput">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+
+                    <!-- Filtros por categoría -->
+                    <div class="filters-container">
+                        <span class="filter-label">Categorías:</span>
+                        <button class="filter-tag active" data-category="todos">Todos</button>
+                        <button class="filter-tag" data-category="herramientas-manuales">Herramientas Manuales</button>
+                        <button class="filter-tag" data-category="materiales-basicos">Materiales Básicos</button>
+                        <button class="filter-tag" data-category="equipos-seguridad">Equipos Seguridad</button>
+                        <button class="filter-tag" data-category="tornillos-anclajes">Tornillos - Anclajes</button>
+                        <button class="filter-tag" data-category="fijaciones">Fijaciones</button>
+                        <button class="filter-tag" data-category="equipos-medicion">Equipos Medición</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid de Productos -->
+            <div class="products-container">
+                <div class="products" id="productsGrid">
+                    {% for producto in productos %}
+                        <div class="card-product" data-category="{{ producto.categoria|default:'general' }}">
+                            {% if producto.destacado %}
+                                <div class="product-badge">Destacado</div>
+                            {% elif producto.oferta %}
+                                <div class="product-badge">Oferta</div>
+                            {% endif %}
+                            
+                            <div class="img-product">
+                                {% if producto.imagen %}
+                                    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                                {% else %}
+                                    <img src="{% static 'imgs/card-products/img-product.jpg' %}" alt="{{ producto.nombre }}">
+                                {% endif %}
+                            </div>
+                            
+                            <div class="info-product">
+                                <h3 class="text-title">{{ producto.nombre|default:"Taladro Inalámbrico" }}</h3>
+                                <span>${{ producto.precio|default:"48.590" }}</span>
+                            </div>
+                            
+                            <p>{{ producto.descripcion|default:"Herramienta profesional de alta calidad, ideal para trabajos de construcción y reparación. Incluye batería de larga duración." }}</p>
+                            
+                            <div class="product-actions">
+                                <div class="stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <div class="btn-product">
+                                    <button>
+                                        <i class="fas fa-shopping-bag"></i> Comprar
+                                    </button>
+                                </div>
+                                <div class="btn-cart">
+                                    <a href="{% url 'agregar_al_carrito' producto.id %}">
+                                        <button>
+                                            <i class="fa-solid fa-cart-shopping"></i>
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="empty-state">
+                            <i class="fas fa-tools"></i>
+                            <h3>No hay productos disponibles</h3>
+                            <p>Estamos trabajando para traerte los mejores productos para tu ferretería.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        <!-- Fin de la Sección de Productos -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-color shadow-lg" id="footer-section">
+        <div class="container">
+            <div class="row text-center text-md-start">
+                <div class="col-md-4 col-lg-4 col-xl-4 mx-auto mt-4">
+                    <div>
+                        <img src="{% static 'imgs/page-imgs/Ferremax_logo.png' %}" alt="Ferramax" class="img-fluid" style="max-height: 60px;" />
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-xl-4 mx-auto mt-4" style="color: white;">
+                    <div>
+                        <h5 class="text-title">Información</h5>
+                        <hr style="border-color: #ffc107;">
+                        <ul class="list-unstyled">
+                            <li><a href="#" style="color: white;" class="text-decoration-none">Sobre Nosotros</a></li>
+                            <li><a href="#" style="color: white;" class="text-decoration-none">Contáctanos</a></li>
+                            <li><a href="#" style="color: white;" class="text-decoration-none">Política de Privacidad</a></li>
+                            <li><a href="#" style="color: white;" class="text-decoration-none">Términos y Condiciones</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-xl-4 mx-auto mt-4" style="color: white;">
+                    <h5 class="text-title">Medios de Pago</h5>
+                    <hr style="border-color: #ffc107;">
+                    <ul class="list-unstyled">
+                        <li><a href="#" style="color: white;" class="text-decoration-none">Visa</a></li>
+                        <li><a href="#" style="color: white;" class="text-decoration-none">Mastercard</a></li>
+                        <li><a href="#" style="color: white;" class="text-decoration-none">American Express</a></li>
+                        <li><a href="#" style="color: white;" class="text-decoration-none">PayPal</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12 text-center" style="color: white;">
+                    <p>&copy; 2024 Ferramax. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    
+    <script>
+        // Funcionalidad de búsqueda
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const productCards = document.querySelectorAll('.card-product');
+            
+            productCards.forEach(card => {
+                const productName = card.querySelector('h3').textContent.toLowerCase();
+                const productDesc = card.querySelector('p').textContent.toLowerCase();
+                
+                if (productName.includes(searchTerm) || productDesc.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeInUp 0.4s ease';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Funcionalidad de filtros
+        document.querySelectorAll('.filter-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                // Remover clase activa de todos los filtros
+                document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                // Agregar clase activa al filtro clickeado
+                this.classList.add('active');
+                
+                const category = this.dataset.category;
+                const productCards = document.querySelectorAll('.card-product');
+                
+                productCards.forEach((card, index) => {
+                    if (category === 'todos' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                        // Animación escalonada
+                        setTimeout(() => {
+                            card.style.animation = 'fadeInUp 0.4s ease forwards';
+                        }, index * 50);
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Animación inicial de carga
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card-product');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+
+        // Efecto de hover mejorado en las tarjetas
+        document.querySelectorAll('.card-product').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferramax - Echale un Vistazo a Nuestro Amplio Catalogo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/69efc5c1d6.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #212529;
+            --primary-yellow: #ffc107;
+            --text-light: #6c757d;
+            --white: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --border-radius: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        /* Navbar Styles */
+        .nav-color {
+            background-color: var(--primary-dark);
+            font-size: 20px;
+            font-family: 'Poppins', sans-serif;
+            padding: 10px;
+            box-shadow: 0 2px 10px var(--shadow);
+        }
+
+        /* Main Container */
+        .main-catalog {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        /* Carousel Styles */
+        .carousel {
+            margin-bottom: 40px;
+        }
+
+        .carousel-item img {
+            filter: brightness(0.8);
+        }
+
+        .carousel-caption h5 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .carousel-caption p {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Section Styles */
+        .section-space {
+            padding: 40px 0;
+        }
+
+        .bg-yellow {
+            background: linear-gradient(135deg, var(--primary-yellow), #ffb300);
+            color: var(--primary-dark);
+            border-radius: 50px;
+            padding: 20px 40px;
+            box-shadow: 0 5px 20px rgba(255, 193, 7, 0.3);
+            margin-bottom: 40px;
+        }
+
+        .text-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        /* Search and Filter Section */
+        .search-filter-section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #dee2e6;
+            border-radius: 50px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            outline: none;
+            background: #f8f9fa;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-yellow);
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.2);
+            background: var(--white);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 18px;
+        }
+
+        .filters-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-right: 10px;
+        }
+
+        .filter-tag {
+            padding: 10px 20px;
+            background: #e9ecef;
+            border: 2px solid transparent;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--primary-dark);
+            text-transform: capitalize;
+        }
+
+        .filter-tag:hover, .filter-tag.active {
+            background: var(--primary-yellow);
+            border-color: var(--primary-dark);
+            color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.3);
+        }
+
+        /* Products Grid */
+        .products-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            justify-items: center;
+        }
+
+        .card-product {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            background: var(--white);
+            box-shadow: 0 5px 20px var(--shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+            overflow: hidden;
+        }
+
+        .card-product:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-product::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 193, 7, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .card-product:hover::before {
+            left: 100%;
+        }
+
+        .img-product {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .img-product img {
+            width: 80%;
+            height: 80%;
+            object-fit: cover;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .card-product:hover .img-product img {
+            transform: scale(1.1);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary-yellow);
+            color: var(--primary-dark);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .info-product {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .info-product h3 {
+            font-size: 1.3em;
+            text-transform: capitalize;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin: 0;
+        }
+
+        .info-product span {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #28a745;
+            white-space: nowrap;
+        }
+
+        .card-product p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .stars {
+            display: flex;
+            font-size: 1.1em;
+            color: var(--primary-yellow);
+        }
+
+        .stars i {
+            margin-right: 2px;
+        }
+
+        .btn-product, .btn-cart {
+            flex: 1;
+        }
+
+        .btn-product button, .btn-cart button {
+            width: 100%;
+            padding: 12px 16px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-product button {
+            background: var(--primary-dark);
+            color: var(--white);
+        }
+
+        .btn-product button:hover {
+            background: #343a40;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 37, 41, 0.3);
+        }
+
+        .btn-cart button {
+            background: var(--primary-yellow);
+            color: var(--primary-dark);
+        }
+
+        .btn-cart button:hover {
+            background: #ffb300;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.3);
+        }
+
+        /* Footer */
+        .footer-color {
+            background-color: var(--primary-dark);
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-color h5 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        .footer-color a {
+            font-family: 'Poppins', sans-serif;
+            transition: color 0.3s ease;
+        }
+
+        .footer-color a:hover {
+            color: var(--primary-yellow) !important;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 30px;
+            color: var(--text-light);
+            grid-column: 1 / -1;
+        }
+
+        .empty-state i {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+            color: var(--primary-dark);
+        }
+
+        .empty-state h3 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .filters-container {
+                justify-content: center;
+            }
+            
+            .filter-tag {
+                font-size: 12px;
+                padding: 8px 15px;
+            }
+            
+            .products {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .card-product {
+                max-width: 100%;
+            }
+            
+            .search-input {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .bg-yellow {
+                padding: 15px 25px;
+                border-radius: 25px;
+            }
+            
+            .text-title {
+                font-size: 1.5em;
+            }
+            
+            .search-filter-section {
+                padding: 20px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-product {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <main class="main-catalog">
+        <!-- Inicio Navbar -->
+        <nav class="navbar navbar-expand-lg nav-color">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'welcome' %}">
+                    <img src="{% static 'imgs/page-imgs/Ferremax_logo.png' %}" alt="Ferramax" width="170" height="50">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
                             <a class="nav-link active" aria-current="page" style="color: white;" href="{% url 'catalog' %}">Catálogo</a>
                         </li>
                         <li class="nav-item">
