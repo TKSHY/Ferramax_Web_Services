@@ -9,7 +9,8 @@ from .models import Project, Task, Producto
 
 # Vista de bienvenida
 def welcome(request):
-    return render(request, 'views/welcome.html')
+    productos = Producto.objects.all()
+    return render(request, 'views/welcome.html', {'productos': productos})
 
 # Vista del formulario de registro
 def register(request):
