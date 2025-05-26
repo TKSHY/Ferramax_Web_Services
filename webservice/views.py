@@ -11,3 +11,6 @@ def register(request):
 
 def catalog(request):
     return render(request, 'views/catalog.html')
+
+def show_register(request):
+    return render(request, "register.html")
