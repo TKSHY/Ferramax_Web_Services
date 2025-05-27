@@ -4,13 +4,17 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Producto
-
+from .mindicador import get_dolar_value
 
 
 # Vista de bienvenida
 def welcome(request):
     productos = Producto.objects.all()
-    return render(request, 'views/welcome.html', {'productos': productos})
+    dolar = get_dolar_value()
+    return render(request, 'views/welcome.html', {
+        'productos': productos,
+        'dolar': dolar
+    })
 
 # Cerrar sesión
 def logout_view(request):
@@ -28,7 +32,11 @@ def show_register(request):
 # Mostrar lista de productos (catálogo)
 def lista_productos(request):
     productos = Producto.objects.all()
-    return render(request, 'productos.html', {'productos': productos})
+    dolar = get_dolar_value()
+    return render(request, 'productos.html', {
+        'productos': productos,
+        'dolar': dolar
+    })
 
 # Agregar un producto al carrito (usando sesión)
 def agregar_al_carrito(request, producto_id):

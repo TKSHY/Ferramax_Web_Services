@@ -80,14 +80,15 @@ WSGI_APPLICATION = 'ferramax.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': 'db.kqfhjpwxodvhbpkhotji.supabase.co',
-        'PORT': '5432',
         'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'renan12345',
+        'USER': 'postgres.kqfhjpwxodvhbpkhotji',
+        'PASSWORD': 'renan12345', # <-- ¡IMPORTANTE! Reemplaza esto con tu contraseña
+        'HOST': 'aws-0-sa-east-1.pooler.supabase.com', # <-- ¡ESTE ES EL NUEVO HOST DEL POOLER!
+        'PORT': '6543', # <-- ¡Y ESTE ES EL NUEVO PUERTO DEL POOLER!
     }
 }
 

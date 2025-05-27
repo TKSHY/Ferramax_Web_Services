@@ -116,6 +116,14 @@
             </button>
         </div>
         <!-- Fin del Carrusel -->
+         <!-- Selector de moneda con switch -->
+<div class="container my-3 text-end">
+    <span class="me-3">Dólar hoy: <b>${{ dolar }}</b> CLP</span>
+    <div class="form-check form-switch d-inline-block align-middle">
+        <input class="form-check-input" type="checkbox" id="switchMoneda">
+        <label class="form-check-label" for="switchMoneda" id="labelMoneda">Mostrar en USD</label>
+    </div>
+</div>
          <!-- Inicio de la Sección de Productos -->
         <section class="section-space">
             <div class="container-fluid">
@@ -129,50 +137,50 @@
         <div class="products-container">
             <div class="products" id="ofertasGrid">
                 {% for producto in productos %}
-                        <div class="card-product" data-category="{{ producto.categoria|default:'general' }}">
-                            <div class="product-badge">Oferta</div>
-                            <div class="img-product">
-                                {% if producto.imagen %}
-                                    <img src="{% static 'imgs/card-products/img-product.jpg' %}" alt="{{ producto.nombre }}">
-                                {% else %}
-                                    <img src="{% static 'imgs/card-products/img-product.jpg' %}" alt="{{ producto.nombre }}">
-                                {% endif %}
+                    <div class="card-product" data-category="{{ producto.categoria|default:'general' }}">
+                        <div class="product-badge">Oferta</div>
+                        <div class="img-product">
+                            {% if producto.imagen %}
+                                <img src="{% static 'imgs/card-products/img-product.jpg' %}" alt="{{ producto.nombre }}">
+                            {% else %}
+                                <img src="{% static 'imgs/card-products/img-product.jpg' %}" alt="{{ producto.nombre }}">
+                            {% endif %}
+                        </div>
+                        <div class="info-product">
+                            <h3 class="text-title">{{ producto.nombre|default:"Taladro Inalámbrico" }}</h3>
+                            <span class="precio-producto" data-precio="{{ producto.precio }}">{{ producto.precio }}</span> <span class="moneda-label">CLP</span>
+                        </div>
+                        <p>{{ producto.descripcion|default:"Herramienta profesional de alta ideal para trabajos de construcción y reparación. Incluye batería de larga duración." }}</p>
+                        <div class="product-actions">
+                            <div class="stars">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
                             </div>
-                            <div class="info-product">
-                                <h3 class="text-title">{{ producto.nombre|default:"Taladro Inalámbrico" }}</h3>
-                                <span>${{ producto.precio|default:"48.590" }}</span>
+                            <div class="btn-product">
+                                <a href="{% url 'ver_carrito' %}">
+                                    <button>
+                                        <i class="fas fa-shopping-bag"></i> Comprar
+                                    </button>
+                                </a>
                             </div>
-                            <p>{{ producto.descripcion|default:"Herramienta profesional de alta ideal para trabajos de construcción y reparación. Incluye batería de larga duración." }}</p>
-                            <div class="product-actions">
-                                <div class="stars">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                </div>
-                                <div class="btn-product">
-                                    <a href="{% url 'ver_carrito' %}">
-                                        <button>
-                                            <i class="fas fa-shopping-bag"></i> Comprar
-                                        </button>
-                                    </a>
-                                </div>
-                                <div class="btn-cart">
-                                    <a href="{% url 'agregar_al_carrito' producto.id %}">
-                                        <button>
-                                            <i class="fa-solid fa-cart-shopping"></i>
-                                        </button>
-                                    </a>
-                                </div>
+                            <div class="btn-cart">
+                                <a href="{% url 'agregar_al_carrito' producto.id %}">
+                                    <button>
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </button>
+                                </a>
                             </div>
                         </div>
-                    {% empty %}
-                    <div class="empty-state">
-                        <i class="fas fa-tools"></i>
-                        <h3>No hay ofertas disponibles</h3>
-                        <p>Estamos trabajando para traerte las mejores ofertas.</p>
                     </div>
+                {% empty %}
+                <div class="empty-state">
+                    <i class="fas fa-tools"></i>
+                    <h3>No hay ofertas disponibles</h3>
+                    <p>Estamos trabajando para traerte las mejores ofertas.</p>
+                </div>
                 {% endfor %}
             </div>
         </div>
@@ -259,5 +267,31 @@
     <script src="{% static 'js/producto.js' %}"></script>
     <script src="{% static 'js/login.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
-  </body>
+    <script>
+        var dolar = parseFloat("{{ dolar|default:'0'|floatformat:'2' }}");
+        var enUSD = false;
+
+        document.getElementById('switchMoneda').addEventListener('change', function() {
+            const precios = document.querySelectorAll('.precio-producto');
+            const monedas = document.querySelectorAll('.moneda-label');
+            const label = document.getElementById('labelMoneda');
+            precios.forEach((span, i) => {
+                let precioCLP = parseFloat(span.getAttribute('data-precio'));
+                if (this.checked) {
+                    let precioUSD = (precioCLP / dolar).toFixed(2);
+                    span.textContent = precioUSD;
+                    if (monedas[i]) monedas[i].textContent = 'USD';
+                    label.textContent = 'Mostrar en CLP';
+                } else {
+                    span.textContent = precioCLP;
+                    if (monedas[i]) monedas[i].textContent = 'CLP';
+                    label.textContent = 'Mostrar en USD';
+                }
+            });
+            enUSD = this.checked;
+        });
+    </script>
+    
+    
+    </body>
 </html>
