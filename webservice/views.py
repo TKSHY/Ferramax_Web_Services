@@ -95,13 +95,12 @@ def pagar_con_mercado_pago(request):
             preference_data = {
                 "items": productos,
                 "back_urls": {
-                    "success": "https://258c-2803-c600-d103-a22f-285c-38fc-6159-118e.ngrok-free.app/pago-exitoso/",
-                    "failure": "https://258c-2803-c600-d103-a22f-285c-38fc-6159-118e.ngrok-free.app/pago-fallido/",
-                    "pending": "https://258c-2803-c600-d103-a22f-285c-38fc-6159-118e.ngrok-free.app/pago-pendiente/"
+                    "success": "https://ee4e-2803-c600-d103-a22f-a12c-c012-b0c7-7b7b.ngrok-free.app/pago-exitoso/",
+                    "failure": "https://ee4e-2803-c600-d103-a22f-a12c-c012-b0c7-7b7b.ngrok-free.app/pago-fallido/",
+                    "pending": "https://ee4e-2803-c600-d103-a22f-a12c-c012-b0c7-7b7b.ngrok-free.app/pago-pendiente/"
                 },
                 "auto_return": "approved",
             }
-
             preference_response = sdk.preference().create(preference_data)
             preference = preference_response["response"]
 
