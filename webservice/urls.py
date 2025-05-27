@@ -3,6 +3,8 @@ from webservice import views
 from webservice.views import show_register
 from webservice.api.register_api import register_user
 from .views import obtener_productos_carrito_json
+from webservice.api.login_api import login_api
+from webservice.views import logout_view
 
 
 urlpatterns = [
@@ -10,6 +12,8 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path("api/register/", register_user, name="register_user"),
     path('mostrar-registro/', show_register, name='show_register'),
+    path('api/login/', login_api, name='login_api'),
+    path('logout/', logout_view, name='logout'),
 
     # Nuevas rutas para el carrito de compras
     path('productos/', views.lista_productos, name='lista_productos'),

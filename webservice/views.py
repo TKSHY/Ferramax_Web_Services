@@ -12,13 +12,14 @@ def welcome(request):
     productos = Producto.objects.all()
     return render(request, 'views/welcome.html', {'productos': productos})
 
+# Cerrar sesión
+def logout_view(request):
+    request.session.flush()
+    return redirect('welcome')
+
 # Vista del formulario de registro
 def register(request):
     return render(request, 'views/register.html')
-
-# Vista del catálogo general
-def catalog(request):
-    return render(request, 'views/catalog.html')
 
 # Mostrar formulario de registro (otra versión, si aplica)
 def show_register(request):

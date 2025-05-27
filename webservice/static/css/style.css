@@ -128,6 +128,16 @@
   }
 }
 
+.modal-header .btn-close {
+    filter: invert(1);
+    margin-right: 15px;
+}
+
+.offcanvas-header .btn-close{
+    filter: invert(1);
+    margin-right: 15px;
+}
+
 /* parte el css de produdcto para hacer el static */
  :root {
             --primary-dark: #212529;

@@ -1,28 +1,29 @@
-from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
+from supabase import create_client, Client
+import os
+
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 @csrf_exempt
-def login_user(request):
-    if request.method == "POST":
+def login_api(request):
+    if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            email = data.get("email")
-            password = data.get("password")
-
-            from django.contrib.auth.models import User
-            try:
-                user = User.objects.get(email=email)
-                username = user.username
-            except User.DoesNotExist:
-                return JsonResponse({"error": "Usuario no existe"}, status=404)
-
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                return JsonResponse({"message": "Inicio de sesión exitoso", "username": username}, status=200)
+            email = data.get('email')
+            password = data.get('password')
+            # Buscar usuario en la tabla users_profile
+            result = supabase.table('users_profile').select('*').eq('email', email).eq('password', password).execute()
+            if result.data and len(result.data) > 0:
+                # Guardar estado de sesión
+                request.session['user_logged_in'] = True
+                request.session['user_email'] = email  # Opcional: guardar el email
+                return JsonResponse({'success': True, 'message': 'Login exitoso'})
             else:
-                return JsonResponse({"error": "Contraseña incorrecta"}, status=401)
+                return JsonResponse({'success': False, 'error': 'Credenciales incorrectas'}, status=401)
         except Exception as e:
-            return JsonResponse({"error": str(e)}, status=400)
-    return JsonResponse({"error": "Método no permitido"}, status=405)
+            return JsonResponse({'success': False, 'error': str(e)}, status=400)
+    return JsonResponse({'error': 'Método no permitido'}, status=405)
